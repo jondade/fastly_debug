@@ -241,9 +241,30 @@ def timer_set(reference_name, timer_dict):
     timer_dict[reference_name] = time.time()
     return
 
+def send_out(data="{}", quiet=True, out_file=None):
+    """Handler for outputing data.
+
+    Arguments:
+        data (str): string of data to output
+
+    """
+    if not quiet:
+        print(data)
+        print(os.linesep)
+
+    if out_file is not None:
+        out_file = open(out_file, 'w')
+    elif sys.stdout.isatty():
+        out_file = sys.stdout
+
+    if out_file is not None:
+        out_file.write(base64.urlsafe_b64encode(str.encode(data)).decode())
+        out_file.write(os.linesep)
+        out_file.close()
+
 def _parse_args():
     """
-    Handles the arguments from the commnand line
+    Handles the arguments from the command line
     """
     parser = argparse.ArgumentParser(prog='fastly_debug')
     parser.add_argument('-D', '--debug', help='Turn on debugging information.', action='store_true')
@@ -270,15 +291,7 @@ def _main():
     debug_info['popLatency'] = fetch_latencies(perfmap['pops'], client_id, debug=args.debug)
     debug_info['popAssignments'] = fetch_pops(hosts=perfmap['domains'], debug=args.debug)
     debug_info['request'] = fetch_resolver(client_id, debug=args.debug)
-    # Now lets stringify that data
-    debug_json = json.dumps(debug_info, indent=2)
-    if not args.quiet:
-        print(debug_json)
-        print(os.linesep)
 
-    out_file = sys.stdout
-    if args.out is not None:
-        out_file = open(args.out, 'w')
-    out_file.write(base64.urlsafe_b64encode(str.encode(debug_json)).decode())
-    out_file.write(os.linesep)
-    out_file.close()
+    # Now lets stringify and output that data
+    debug_json = json.dumps(debug_info, indent=2)
+    send_out(debug_json, args.quiet, args.out)
