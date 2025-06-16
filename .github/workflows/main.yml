@@ -32,4 +32,4 @@ jobs:
     - name: Show version
       run: |
         python -m pip install setuptools
-        echo "${{ needs.build.outputs.version }}"
+        echo "${{ jobs.build.outputs.version }}"
