@@ -17,7 +17,7 @@ jobs:
         python -m pip install build
         python -m build
 
-  push:
+  push-whl:
     runs-on: ubuntu-latest
     name: Python Push
     steps:
@@ -33,4 +33,20 @@ jobs:
           repo: "actions"
           republish: "true" # needed ONLY if version is not changing
           file: "dist/fastly_debug-${{ env.VERSION }}-py3-none-any.whl"
-          file: "dist/fastly_debug=${{ env.VERSION }}.tar.gz"
+   
+     push-package:
+      runs-on: ubuntu-latest
+      name: Python Push
+      steps:
+        - uses: actions/checkout@v4
+        - name: Push
+          id: push
+          uses: cloudsmith-io/action@master
+          with:
+            api-key: ${{ secrets.CLOUDSMITH_API_KEY }}
+            command: "push"
+            format: "python"
+            owner: "cloudsmith"
+            repo: "actions"
+            republish: "true" # needed ONLY if version is not changing
+            file: "dist/fastly_debug=${{ env.VERSION }}.tar.gz"
