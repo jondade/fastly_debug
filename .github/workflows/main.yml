@@ -17,7 +17,7 @@ jobs:
         python -m pip install build
         python -m build
 
-  push-whl:
+  push_whl:
     runs-on: ubuntu-latest
     name: Python Push
     steps:
