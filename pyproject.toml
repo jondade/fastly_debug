@@ -1,0 +1,9 @@
+[project]
+name = "fastly_debug"
+version = "0.1.0"
+description = "A tool for debugging Fastly services"
+dependencies = [
+    "requests",
+    'importlib-metadata; python_version<"3.10"',
+    "urllib3"
+]
