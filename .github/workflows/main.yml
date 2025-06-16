@@ -20,7 +20,9 @@ jobs:
         python -m build
     - name: Show version number
       id: version
-      run: echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
+      run: |
+        python -m pip install setuptools
+        echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
 
   show-version:
     runs-on: ubuntu-latest
