@@ -34,4 +34,4 @@ jobs:
           repo: "actions"
           republish: "true" # needed ONLY if version is not changing
           file: "dist/fastly_debug-${{ env.VERSION }}-py3-none-any.whl"
-          file: "dist/fastly_debug=${{ env.VERSION }}.tar.gz
+          file: "dist/fastly_debug=${{ env.VERSION }}.tar.gz"
