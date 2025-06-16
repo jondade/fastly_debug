@@ -17,11 +17,13 @@ jobs:
     - name: Install Build package
       id: prereqs
       run: |
+        export PIP_INDEX_URL="https://${{ secrets.CLOUDSMITH_AUTOMATION_USER }}:${{ secrets.CLOUDSMITH_API_KEY }}@dl.cloudsmith.io/queeg-5000/blue-midget/python/simple/"
         python -m pip install build
         python -m build
     - name: Show version number
       id: version
       run: |
+        export PIP_INDEX_URL="https://${{ secrets.CLOUDSMITH_AUTOMATION_USER }}:${{ secrets.CLOUDSMITH_API_KEY }}@dl.cloudsmith.io/queeg-5000/blue-midget/python/simple/"
         python -m pip install setuptools
         echo "version=$(python setup.py --version)"
         echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
