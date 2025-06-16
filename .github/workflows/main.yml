@@ -1,9 +1,6 @@
 name: Push Python
 on: push
 
-env:
-  VERSION: $(python setup.py --version)
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,6 +19,7 @@ jobs:
       id: version
       run: |
         python -m pip install setuptools
+        echo "version=$(python setup.py --version)"
         echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
 
   show-version:
