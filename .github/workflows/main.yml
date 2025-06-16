@@ -7,32 +7,27 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
         python-version: "3.x"
-    - name: Build package
+    - name: Install Build package
       run: |
-        echo "${{ env.VERSION }}"
         python -m pip install build
         python -m build
-  
-  
-  push_package:
+    - name: Show version number
+      id: version
+      run: echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
+
+  show-version:
     runs-on: ubuntu-latest
-    name: Python Push
     steps:
-      - uses: actions/checkout@v4
-      - name: Push
-        id: push
-        uses: cloudsmith-io/action@master
-        with:
-          api-key: ${{ secrets.CLOUDSMITH_API_KEY }}
-          command: "push"
-          format: "python"
-          owner: "queeg-5000"
-          repo: "blue-midget"
-          republish: "true" # needed ONLY if version is not changing
-          file: "dist/fastly_debug=${{ env.VERSION }}.tar.gz"
-          executable: "false"
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+    - name: Show version
+      run: echo "${{ needs.build.outputs.version }}"
