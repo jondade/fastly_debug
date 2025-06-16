@@ -34,7 +34,7 @@ jobs:
           republish: "true" # needed ONLY if version is not changing
           file: "dist/fastly_debug-${{ env.VERSION }}-py3-none-any.whl"
    
-     push-package:
+     push_package:
       runs-on: ubuntu-latest
       name: Python Push
       steps:
