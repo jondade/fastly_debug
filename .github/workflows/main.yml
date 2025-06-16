@@ -12,6 +12,7 @@ jobs:
       with:
         python-version: "3.x"
     - name: Install Build package
+      id: prereqs
       run: |
         python -m pip install build
         python -m build
