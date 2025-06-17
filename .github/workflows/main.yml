@@ -24,6 +24,7 @@ jobs:
         python -m pip install setuptools
         echo "version=$(python setup.py --version)"
         echo "version=$(python setup.py --version)" >> "$GITHUB_OUTPUT"
+        echo " Hopefully this builds"
     - name: Push
       id: push
       uses: cloudsmith-io/action@master
